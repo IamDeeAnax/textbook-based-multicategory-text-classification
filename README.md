@@ -12,7 +12,7 @@ Before using the embedding models, the raw text will be cleaned by removing punc
 
 The task aims to test the three pre-trained embedding models on the preprocessed data to generate numerical representation, which will be used to train a classification model and compare the results using different performance metrics. And to have more understanding of TensorFlow text classification. 
 
-![Picture1](https://github.com/IamDeeAnax/NLP_task/assets/111533591/b4e7fbc4-54e8-43f9-abda-461605966cce)
+![Picture1](https://github.com/IamDeeAnax/NLP_task/assets/111533591/843dd0c4-1854-404c-8632-81e5455d360a)
 
 
 ## Usage
