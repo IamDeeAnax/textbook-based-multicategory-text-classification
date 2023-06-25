@@ -15,6 +15,30 @@ The task aims to test the three pre-trained embedding models on the preprocessed
 ![Picture1](https://github.com/IamDeeAnax/NLP_task/assets/111533591/843dd0c4-1854-404c-8632-81e5455d360a)
 
 
+## Dataset
+
+For this project, data was scrapped from physics, biology, history, and computer science subject textbooks. The textbooks are in pdf files. The text of each textbook is extracted and stored as a text file in a folder with the subject names. The data is a list of the text files in different folders with each folder name as the name of the category. There are four categories in the dataset which will be the label; the categories are Physics, Computer Science, Biology, and History. 
+
+References to the PDF files from which the text data was extracted:
+
+### History
+- [World History Textbook](https://www.livoniapublicschools.org/site/handlers/filedownload.ashx?moduleinstanceid=13448&dataid=5707&FileName=World%20History%20Textbook.pdf) 
+- [The Book of History Volume 1 (1915)](http://www.public-library.uk/dailyebook/The%20Book%20of%20History%20Volume%201%20(1915).pdf)  
+### Computer Science
+- [Computer Science One](https://cse.unl.edu/~cbourke/ComputerScienceOne.pdf)
+- [Computer Science - An Overview (12th Global Edition)](https://jhzhang.cn/resources/A050113G/Computer%20Science-%20An%20Overview%20(12th%20Global%20Edition).pdf)
+- [Introduction to Computer Science Using Python](http://bedford-computing.co.uk/learning/wp-content/uploads/2015/10/Introduction-to-Computer-Science-Using-Python.pdf)
+  
+### Physics
+- [University Physics with Modern Physics (13th Edition)](https://physica.cloud/ajab/uploads/2018/10/Hugh-D.-Young-Roger-A.-Freedman-A.-Lewis-Ford-University-Physics-with-Modern-Physics-with-MasteringPhysics®-13th-Edition-Addison-Wesley-2011.pdf)
+- [Tipler and Llewellyn's Physics](https://web.pdx.edu/~pmoeck/books/Tipler_Llewellyn.pdf)
+  
+### Biology
+- [Principles of Biology](http://dept.clcillinois.edu/biodv/PrinciplesOfBiology.pdf)
+- [Raven Johnson McGraw-Hill Biology](https://biology.org.ua/files/lib/Raven_Johnson_McGraw-Hill_Biology.pdf)
+  
+Please note that the provided URLs may not be active or accessible in the future, as they are external resources.
+
 ## Usage
 
 1. Clone or download the project repository to your local machine.
