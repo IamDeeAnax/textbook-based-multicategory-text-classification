@@ -1,19 +1,17 @@
 # Multi-Class Text Classification with three predefined model
 
 ## Introduction
-Text classification is one of the exciting parts of NLP. 
-Making machines understand natural language and be able to perform tasks like classifying each word or phrase based on the context is one of the challenging tasks in NLP. 
-
-In this task, we focus on multi-class text classification with TensorFlow starting with raw text and using the embedding space. TensorFlow is an open-source machine-learning library with varieties of models that can be used for text classification tasks. 
-
+Text classification is one of the exciting parts of NLP. Making machines understand natural language and be able to perform tasks like classifying each word or phrase based on the context is one of the challenging tasks in NLP. In this task, we focus on multi-class text classification with TensorFlow starting with raw text and using the embedding space.
+ 
 Three predefined models will be used on raw text data for classification tasks. The three embedding models include Neural Network Language Model with 128 dimensions and normalization (NNLM-128- with-normalization), USE (Universal Sentence Encoder), and BERT (Bidirectional Encoder Representations from Transformers). These embedding models convert text data into numerical representations called vectors.
-
-Before using the embedding models, the raw text will be cleaned by removing punctuations, stop words, new lines, words containing numbers, and text in square brackets, making the text lowercase, and some other preprocessing steps. 
 
 The task aims to test the three pre-trained embedding models on the preprocessed data to generate numerical representation, which will be used to train a classification model and compare the results using different performance metrics. And to have more understanding of TensorFlow text classification. 
 
 ![Picture1](https://github.com/IamDeeAnax/NLP_task/assets/111533591/843dd0c4-1854-404c-8632-81e5455d360a)
 
+## The Application
+
+The machine learning model is served through a web application built with Streamlit. The application takes raw text as input, preprocesses the text, makes a prediction using the machine learning model, and displays the predicted category.
 
 ## Dataset
 
@@ -54,6 +52,21 @@ Please note that the provided URLs may not be active or accessible in the future
 
 5. You can modify the code and experiment with different inputs to see the results.
 
+### Running the Streamlit application
+
+#### Installation
+
+Before running the application, you will need to install the required Python packages. These packages are listed in the "app_requirements.txt" file in the "model" directory.
+
+To install these packages, open a terminal (Mac or Linux) or command prompt (Windows) and navigate to the "model" directory using the "cd" command. For example: "cd path/to/model". Replace "path/to/model" with the actual path to the "model" directory on your computer.
+
+Once you're in the "model" directory, run the following command to install the required packages: "pip install -r app_requirements.txt"
+
+This will install all the necessary packages to run the model and the Streamlit application.
+
+After installing the necessary packages, stay in the "model" directory and run: "streamlit run app.py"
+
+The application should now be running at "localhost:8501" in your web browser.
 
 ## Contributing
 
