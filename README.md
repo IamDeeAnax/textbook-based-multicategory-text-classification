@@ -56,11 +56,11 @@ Please note that the provided URLs may not be active or accessible in the future
 
 #### Installation
 
-Before running the application, you will need to install the required Python packages. These packages are listed in the "app_requirements.txt" file in the "model" directory.
+Before running the application, you will need to install the required Python packages. These packages are listed in the "requirements.txt" file in the "model" directory.
 
 To install these packages, open a terminal (Mac or Linux) or command prompt (Windows) and navigate to the "model" directory using the "cd" command. For example: "cd path/to/model". Replace "path/to/model" with the actual path to the "model" directory on your computer.
 
-Once you're in the "model" directory, run the following command to install the required packages: "pip install -r app_requirements.txt"
+Once you're in the "model" directory, run the following command to install the required packages: "pip install -r requirements.txt"
 
 This will install all the necessary packages to run the model and the Streamlit application.
 
