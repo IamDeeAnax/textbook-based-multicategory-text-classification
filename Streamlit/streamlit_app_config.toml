@@ -1,0 +1,3 @@
+[general]
+# Specify the path to your requirements file
+requirements = "requirements.txt"
