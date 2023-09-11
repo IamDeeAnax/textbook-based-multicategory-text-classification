@@ -70,7 +70,7 @@ dir_name = os.path.abspath(os.path.dirname(__file__))
 
 # Construct the absolute paths for your files
 weights_path = os.path.join(dir_name, 'model/subject_classification_model_weights.h5')
-encoder_path = os.path.join(dir_name, 'model/encoder_classes.npy')
+encoder_path = os.path.join(dir_name, 'model/enncoder_classes.npy')
 background_image_path = os.path.join(dir_name, 'background.png')
 
 encoder = None
