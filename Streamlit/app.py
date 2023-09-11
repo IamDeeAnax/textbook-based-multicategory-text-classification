@@ -73,6 +73,8 @@ weights_path = os.path.join(dir_name, 'model/subject_classification_model_weight
 encoder_path = os.path.join(dir_name, 'model/encoder_classes.npy')
 background_image_path = os.path.join(dir_name, 'background.png')
 
+encoder = None
+
 # Load the model weights from the local path
 try:
     model.load_weights(weights_path)
