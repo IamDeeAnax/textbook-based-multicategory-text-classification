@@ -1,5 +1,6 @@
 import streamlit as st
 import tensorflow as tf
+import tensorflow_hub as hub
 import numpy as np
 import nltk
 import re
@@ -8,6 +9,7 @@ from nltk.corpus import stopwords
 from nltk.corpus import words
 import wordninja
 from sklearn.preprocessing import LabelEncoder
+import base64
 
 # Define a function to preprocess the data
 def preprocess_text(text):
@@ -44,17 +46,59 @@ def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-# Load model
-model_load = tf.keras.models.load_model("./model/subject_classification_model")
+# Define the number of output classes 
+num_classes = 4
 
-# Load encoder
-encoder_classes = np.load("./model/encoder_classes.npy", allow_pickle=True)
-encoder = LabelEncoder()
-encoder.classes_ = encoder_classes
+# Define your model architecture using the pre-trained embedding
+embedding_layer = hub.KerasLayer(
+    "https://tfhub.dev/google/nnlm-en-dim128-with-normalization/2",
+    input_shape=[],
+    dtype=tf.string,
+    trainable=True,
+)
+
+model = tf.keras.Sequential([
+    embedding_layer,
+    tf.keras.layers.Dense(32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dense(num_classes, activation='softmax')
+])
+
+
+# Local paths where the files are saved
+weights_path = './model/subject_classification_model_weights.h5'
+encoder_path = './model/encoder_classes.npy'
+
+# Load the model weights from the local path
+try:
+    model.load_weights(weights_path)
+    encoder_classes = np.load(encoder_path, allow_pickle=True)
+    encoder = LabelEncoder()
+    encoder.classes_ = encoder_classes
+
+except Exception as e:
+    error_message = f"Error loading the encoder: {str(e)}"
+    st.error(error_message)
 
 # Set up NLTK stopwords
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
+
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+add_bg_from_local('background.png')
 
 # Streamlit app title
 st.title("School Subject Classification")
@@ -91,7 +135,7 @@ if st.button("Predict Subject"):
                 input_sequences = tf.constant([filtered_sentence], dtype=tf.string)
 
                 # Use the loaded model for predictions
-                prediction = model_load.predict(input_sequences)
+                prediction = model.predict(input_sequences)
 
                 # Get the predicted label
                 predicted_label = np.argmax(prediction, axis=-1)
