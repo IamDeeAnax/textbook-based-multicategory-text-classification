@@ -66,8 +66,8 @@ model = tf.keras.Sequential([
 
 
 # Local paths where the files are saved
-weights_path = './model/subject_classification_model_weights.h5'
-encoder_path = './model/encoder_classes.npy'
+weights_path = 'Streamlit/model/subject_classification_model_weights.h5'
+encoder_path = 'Streamlit/model/encoder_classes.npy'
 
 # Load the model weights from the local path
 try:
