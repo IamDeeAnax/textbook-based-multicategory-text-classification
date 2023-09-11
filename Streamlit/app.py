@@ -81,6 +81,14 @@ try:
     encoder_classes = np.load(encoder_path, allow_pickle=True)
     encoder = LabelEncoder()
     encoder.classes_ = encoder_classes
+    
+except FileNotFoundError as e:
+    error_message = f"File not found: {str(e)}"
+    st.error(error_message)
+
+except AttributeError as e:
+    error_message = f"Attribute error: {str(e)}"
+    st.error(error_message)
 
 except Exception as e:
     error_message = f"Error loading the encoder: {str(e)}"
