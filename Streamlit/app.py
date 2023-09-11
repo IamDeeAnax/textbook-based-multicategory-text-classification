@@ -10,6 +10,7 @@ from nltk.corpus import words
 import wordninja
 from sklearn.preprocessing import LabelEncoder
 import base64
+import os
 
 # Define a function to preprocess the data
 def preprocess_text(text):
@@ -64,10 +65,13 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(num_classes, activation='softmax')
 ])
 
+# Get the absolute path to the directory containing your Streamlit app script
+dir_name = os.path.abspath(os.path.dirname(__file__))
 
-# Local paths where the files are saved
-weights_path = 'Streamlit/model/subject_classification_model_weights.h5'
-encoder_path = 'Streamlit/model/encoder_classes.npy'
+# Construct the absolute paths for your files
+weights_path = os.path.join(dir_name, 'Streamlit/model/subject_classification_model_weights.h5')
+encoder_path = os.path.join(dir_name, 'Streamlit/model/encoder_classes.npy')
+background_image_path = os.path.join(dir_name, 'background.png')
 
 # Load the model weights from the local path
 try:
@@ -98,7 +102,7 @@ def add_bg_from_local(image_file):
     """,
     unsafe_allow_html=True
     )
-add_bg_from_local('background.png')
+add_bg_from_local(background_image_path)
 
 # Streamlit app title
 st.title("School Subject Classification")
