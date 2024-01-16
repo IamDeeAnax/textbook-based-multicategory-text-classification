@@ -1,9 +1,9 @@
-# Multi-Class Text Classification with three predefined model
+# Multi-Class Text Classification with three pretrained model
 
 ## Introduction
 Text classification is one of the exciting parts of NLP. Making machines understand natural language and be able to perform tasks like classifying each word or phrase based on the context is one of the challenging tasks in NLP. In this task, we focus on multi-class text classification with TensorFlow starting with raw text and using the embedding space.
  
-Three predefined models will be used on raw text data for classification tasks. The three embedding models include Neural Network Language Model with 128 dimensions and normalization (NNLM-128- with-normalization), USE (Universal Sentence Encoder), and BERT (Bidirectional Encoder Representations from Transformers). These embedding models convert text data into numerical representations called vectors.
+Three pretrained models will be used on raw text data for classification tasks. The three embedding models include Neural Network Language Model with 128 dimensions and normalization (NNLM-128- with-normalization), USE (Universal Sentence Encoder), and BERT (Bidirectional Encoder Representations from Transformers). These embedding models convert text data into numerical representations called vectors.
 
 The task aims to test the three pre-trained embedding models on the preprocessed data to generate numerical representation, which will be used to train a classification model and compare the results using different performance metrics. And to have more understanding of TensorFlow text classification. 
 
