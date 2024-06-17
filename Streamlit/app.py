@@ -113,20 +113,41 @@ def add_bg_from_local(image_file):
     )
 add_bg_from_local(background_image_path)
 
+# Custom CSS to change text color and size
+st.markdown(
+    """
+    <style>
+    .custom-text {
+        color: black;
+        font-size: 20px;
+    }
+    .custom-title {
+        color: black;
+        font-size: 30px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Streamlit app title
-st.title("School Subject Classification")
+st.markdown("<h1 class='custom-title'>School Subject Classification</h1>", unsafe_allow_html=True)
 
 # Description
-st.markdown("## Description")
-st.markdown("""
-This app predicts the school subject based on the input text. 
-The text is preprocessed and then classified using a trained model. 
-The model can predict one of the following four categories: 
-Physics, Biology, History, and Computer Science.
-""")
+st.markdown("<h2 class='custom-title'>Description</h2>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <p class='custom-text'>
+    This app predicts the school subject based on the input text. 
+    The text is preprocessed and then classified using a trained model. 
+    The model can predict one of the following four categories: 
+    Physics, Biology, History, and Computer Science.
+    </p>
+    """, unsafe_allow_html=True
+)
 
 # User input text
-st.markdown("## Input Text")
+st.markdown("<h2 class='custom-title'>Input Text</h2>", unsafe_allow_html=True)
 input_text = st.text_area("Enter the text:", "")
 
 # Button to predict subject
