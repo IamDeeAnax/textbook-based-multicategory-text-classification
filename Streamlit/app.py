@@ -65,13 +65,10 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(num_classes, activation='softmax')
 ])
 
-# Get the absolute path to the directory containing your Streamlit app script
-dir_name = os.path.abspath(os.path.dirname(__file__))
-
-# Construct the absolute paths for your files
-weights_path = os.path.join(dir_name, 'model/subject_classification_model_weights.h5')
-encoder_path = os.path.join(dir_name, 'model/encoder_classes.npy')
-background_image_path = os.path.join(dir_name, 'background.png')
+# Define the paths for your files
+weights_path = 'Streamlit/model/subject_classification_model_weights.h5'
+encoder_path = 'Streamlit/model/encoder_classes.npy'
+background_image_path = 'Streamlit/background.png'
 
 
 # Load the model weights from the local path
