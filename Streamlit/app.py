@@ -135,6 +135,23 @@ st.markdown(
         color: black !important;
         font-size: 30px !important;
     }
+
+    .success-message {
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .warning-message {
+        color: red;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .done-message {
+        color: green;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -193,12 +210,11 @@ if st.button("Predict Subject"):
 
                 # Check if the confidence level is below the threshold
                 if confidence < confidence_threshold:
-                    st.warning('The input text does not belong to any category.')
+                    st.markdown("<p class='warning-message'>The input text does not belong to any category.</p>", unsafe_allow_html=True)
                 else:
                     # Display the predicted subject with confidence
-                    st.success(f"The input text belongs to the category: {predicted_class_name}")
-                    # st.info(f"Confidence level: {confidence:.2f}")
-            st.success('Done!')
+                    st.markdown(f"<p class='success-message'>The input text belongs to the category: {predicted_class_name}</p>", unsafe_allow_html=True)
+            st.markdown("<p class='done-message'>Done!</p>", unsafe_allow_html=True)
         # Error handling
         except Exception as e:
             st.error('Error: ' + str(e))
