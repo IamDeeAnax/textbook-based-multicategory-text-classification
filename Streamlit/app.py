@@ -11,6 +11,7 @@ import wordninja
 from sklearn.preprocessing import LabelEncoder
 import base64
 import os
+import gdown
 
 # Define a function to preprocess the data
 def preprocess_text(text):
@@ -47,6 +48,37 @@ def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
+
+# Google Drive direct download links
+model_url = 'https://drive.google.com/uc?export=download&id=1N9QgZhHzCWcwOeSpa1eV17ZAKdJ7Ppt9'
+encoder_url = 'https://drive.google.com/uc?export=download&id=1JpAmTkK_3MeFiq-xTBlq-6Vfobsk2wgQ'
+
+# Get the absolute path to the directory containing your Streamlit app script
+dir_name = os.path.abspath(os.path.dirname(__file__))
+
+# Construct the absolute paths for your files
+weights_path = os.path.join(dir_name, 'model/subject_classification_model_weights.h5')
+encoder_path = os.path.join(dir_name, 'model/encoder_classes.npy')
+background_image_path = os.path.join(dir_name, 'background.png')
+
+# Function to download file using gdown
+def download_file(url, destination):
+    gdown.download(url, destination, quiet=False)
+
+# Ensure model and encoder directories exist
+os.makedirs(os.path.dirname(weights_path), exist_ok=True)
+
+# Download the model and encoder files if they don't exist or are incomplete
+try:
+    if not os.path.isfile(weights_path):
+        st.info('Downloading model...')
+        download_file(model_url, weights_path)
+    if not os.path.isfile(encoder_path):
+        st.info('Downloading encoder...')
+        download_file(encoder_url, encoder_path)
+except Exception as e:
+    st.error(f"Error downloading files: {e}")
+
 # Define the number of output classes 
 num_classes = 4
 
@@ -65,30 +97,18 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(num_classes, activation='softmax')
 ])
 
-# Get the absolute path to the directory containing your Streamlit app script
-dir_name = os.path.abspath(os.path.dirname(__file__))
-
-# Construct the absolute paths for your files
-weights_path = os.path.join(dir_name, 'model/subject_classification_model_weights.h5')
-encoder_path = os.path.join(dir_name, 'model/enncoder_classes.npy')
-background_image_path = os.path.join(dir_name, 'background.png')
-
-
 # Load the model weights from the local path
 try:
     model.load_weights(weights_path)
     encoder_classes = np.load(encoder_path, allow_pickle=True)
     encoder = LabelEncoder()
     encoder.classes_ = encoder_classes
-    
 except FileNotFoundError as e:
     error_message = f"File not found: {str(e)}"
     st.error(error_message)
-
 except AttributeError as e:
     error_message = f"Attribute error: {str(e)}"
     st.error(error_message)
-
 except Exception as e:
     error_message = f"Error loading the encoder: {str(e)}"
     st.error(error_message)
@@ -113,41 +133,54 @@ def add_bg_from_local(image_file):
     )
 add_bg_from_local(background_image_path)
 
-# Custom CSS to change text color and size
+# Custom CSS to change text color, size, and alignment
 st.markdown(
     """
     <style>
-    .custom-text {
+    .title {
         color: black;
         font-size: 20px;
+        text-align: left;
+        font-weight: bold;
     }
-    .custom-title {
+    .text {
+        color: black;
+        font-size: 20px;
+        text-align: center;
+    }
+    .heading {
         color: black;
         font-size: 30px;
+        text-align: center;
+        font-weight: bold;
+    }
+    .stTextArea label {
+        color: black !important;
+        font-size: 30px !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
-
 # Streamlit app title
-st.markdown("<h1 class='custom-title'>School Subject Classification</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='heading'>SCHOOL SUBJECT CLASSIFICATION</h1>", unsafe_allow_html=True)
 
 # Description
-st.markdown("<h2 class='custom-title'>Description</h2>", unsafe_allow_html=True)
+st.markdown("<h2 class='title'>Description</h2>", unsafe_allow_html=True)
 st.markdown(
     """
-    <p class='custom-text'>
+    <p class='text'>
     This app predicts the school subject based on the input text. 
     The text is preprocessed and then classified using a trained model. 
     The model can predict one of the following four categories: 
     Physics, Biology, History, and Computer Science.
     </p>
-    """, unsafe_allow_html=True
+    """, 
+    unsafe_allow_html=True
 )
 
 # User input text
-st.markdown("<h2 class='custom-title'>Input Text</h2>", unsafe_allow_html=True)
+st.markdown("<h2 class='title'>Input Text</h2>", unsafe_allow_html=True)
 input_text = st.text_area("Enter the text:", "")
 
 # Button to predict subject
