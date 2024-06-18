@@ -1,0 +1,2 @@
+model/subject_classification_model_weights.h5 filter=lfs diff=lfs merge=lfs -text
+Streamlit/model/subject_classification_model_weights.h5 filter=lfs diff=lfs merge=lfs -text
