@@ -12,6 +12,7 @@ from sklearn.preprocessing import LabelEncoder
 import base64
 import os
 import gdown
+import requests
 
 # Define a function to preprocess the data
 def preprocess_text(text):
@@ -61,10 +62,17 @@ weights_path = os.path.join(dir_name, 'model/subject_classification_model_weight
 encoder_path = os.path.join(dir_name, 'model/encoder_classes.npy')
 background_image_path = os.path.join(dir_name, 'background.png')
 
-# Function to download file using gdown
+# Function to download file using requests with a timeout
 def download_file(url, destination):
-    gdown.download(url, destination, quiet=False)
-
+    try:
+        with requests.get(url, stream=True, timeout=300) as r:  # 300 seconds timeout
+            r.raise_for_status()
+            with open(destination, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error downloading file: {e}")
+        raise e
 # Ensure model and encoder directories exist
 os.makedirs(os.path.dirname(weights_path), exist_ok=True)
 
