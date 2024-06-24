@@ -11,8 +11,6 @@ import wordninja
 from sklearn.preprocessing import LabelEncoder
 import base64
 import os
-import gdown
-import requests
 
 # Define a function to preprocess the data
 def preprocess_text(text):
@@ -49,50 +47,12 @@ def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-
-# Google Drive direct download links
-model_url = 'https://drive.google.com/uc?export=download&id=1N9QgZhHzCWcwOeSpa1eV17ZAKdJ7Ppt9'
-encoder_url = 'https://drive.google.com/uc?export=download&id=1JpAmTkK_3MeFiq-xTBlq-6Vfobsk2wgQ'
-
-# Get the absolute path to the directory containing your Streamlit app script
-dir_name = os.path.abspath(os.path.dirname(__file__))
-
-# Construct the absolute paths for your files
-weights_path = os.path.join(dir_name, 'model/subject_classification_model_weights.h5')
-encoder_path = os.path.join(dir_name, 'model/encoder_classes.npy')
-background_image_path = os.path.join(dir_name, 'background.png')
-
-# Function to download file using requests with a timeout
-def download_file(url, destination):
-    try:
-        with requests.get(url, stream=True, timeout=300) as r:  # 300 seconds timeout
-            r.raise_for_status()
-            with open(destination, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error downloading file: {e}")
-        raise e
-# Ensure model and encoder directories exist
-os.makedirs(os.path.dirname(weights_path), exist_ok=True)
-
-# Download the model and encoder files if they don't exist or are incomplete
-try:
-    if not os.path.isfile(weights_path):
-        st.info('Downloading model...')
-        download_file(model_url, weights_path)
-    if not os.path.isfile(encoder_path):
-        st.info('Downloading encoder...')
-        download_file(encoder_url, encoder_path)
-except Exception as e:
-    st.error(f"Error downloading files: {e}")
-
 # Define the number of output classes 
 num_classes = 4
 
 # Define your model architecture using the pre-trained embedding
 embedding_layer = hub.KerasLayer(
-    "https://tfhub.dev/google/nnlm-en-dim128-with-normalization/2",
+    "https://tfhub.dev/google/nnlm-en-dim50/2",
     input_shape=[],
     dtype=tf.string,
     trainable=True,
@@ -105,18 +65,27 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(num_classes, activation='softmax')
 ])
 
+# Define the paths for your files
+weights_path = 'Streamlit/model/subject_classification_model_weights.h5'
+encoder_path = 'Streamlit/model/encoder_classes.npy'
+background_image_path = 'Streamlit/background.png'
+
+
 # Load the model weights from the local path
 try:
     model.load_weights(weights_path)
     encoder_classes = np.load(encoder_path, allow_pickle=True)
     encoder = LabelEncoder()
     encoder.classes_ = encoder_classes
+    
 except FileNotFoundError as e:
     error_message = f"File not found: {str(e)}"
     st.error(error_message)
+
 except AttributeError as e:
     error_message = f"Attribute error: {str(e)}"
     st.error(error_message)
+
 except Exception as e:
     error_message = f"Error loading the encoder: {str(e)}"
     st.error(error_message)
@@ -166,6 +135,23 @@ st.markdown(
         color: black !important;
         font-size: 30px !important;
     }
+
+    .success-message {
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .warning-message {
+        color: red;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .done-message {
+        color: green;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -224,12 +210,11 @@ if st.button("Predict Subject"):
 
                 # Check if the confidence level is below the threshold
                 if confidence < confidence_threshold:
-                    st.warning('The input text does not belong to any category.')
+                    st.markdown("<p class='warning-message'>The input text does not belong to any category.</p>", unsafe_allow_html=True)
                 else:
                     # Display the predicted subject with confidence
-                    st.success(f"The input text belongs to the category: {predicted_class_name}")
-                    # st.info(f"Confidence level: {confidence:.2f}")
-            st.success('Done!')
+                    st.markdown(f"<p class='success-message'>The input text belongs to the category: {predicted_class_name}</p>", unsafe_allow_html=True)
+            st.markdown("<p class='done-message'>Done!</p>", unsafe_allow_html=True)
         # Error handling
         except Exception as e:
             st.error('Error: ' + str(e))
